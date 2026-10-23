@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اسكوتر بنزين وكهرباء | المتجر الأول للسكوترات في مصر</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            accent: '#10b981',
+                            accentHover: '#059669',
+                            darkBg: '#090d16',
+                            cardBg: '#131c2e',
+                            cardBorder: '#1f2d47'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #090d16;
+            color: #f3f4f6;
+        }
+        .glow-text {
+            text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2d47;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-accent selection:text-black">
+
+    <!-- NAVBAR -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-opacity-90 bg-[#090d16] border-b border-brand-cardBorder">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl bg-brand-accent/10 border border-brand-accent/30 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-motorcycle text-brand-accent text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl sm:text-2xl font-black tracking-wider text-white">اسكوتر <span class="text-brand-accent">بنزين وكهرباء</span></span>
+                    <span class="block text-xs text-gray-400 font-normal">عالم السكوترات الأول في مصر</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 font-semibold text-sm">
+                <a href="#hero" class="hover:text-brand-accent transition-colors">الرئيسية</a>
+                <a href="#catalog" class="hover:text-brand-accent transition-colors">السكوترات</a>
+                <a href="#calculator" class="hover:text-brand-accent transition-colors">حاسبة المدى</a>
+                <a href="#features" class="hover:text-brand-accent transition-colors">لماذا نحن؟</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+                <!-- Admin Add Scooter Button -->
+                <button id="admin-add-btn" onclick="openAddScooterModal()" class="hidden items-center gap-2 bg-brand-accent text-black font-bold px-4 py-2.5 rounded-xl hover:bg-brand-accentHover transition-all text-xs sm:text-sm">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>إضافة سكوتر</span>
+                </button>
+
+                <!-- Admin Sync / Settings Button -->
+                <button id="admin-sync-btn" onclick="openSyncModal()" class="hidden items-center gap-2 bg-blue-500/10 text-blue-400 border border-blue-500/30 font-bold px-3 py-2.5 rounded-xl hover:bg-blue-500/20 transition-all text-xs" title="إعدادات الرابط">
+                    <i class="fa-solid fa-link"></i>
+                    <span class="hidden sm:inline">إعدادات السيرفر</span>
+                </button>
+
+                <!-- Login / Logout Button -->
+                <button id="auth-btn" onclick="toggleAuthModal()" class="flex items-center gap-2 bg-brand-cardBg border border-brand-cardBorder px-4 py-2.5 rounded-xl hover:border-brand-accent transition-all text-xs sm:text-sm">
+                    <i id="auth-icon" class="fa-solid fa-user-lock text-brand-accent"></i>
+                    <span id="auth-label">دخول صاحب المحل</span>
+                </button>
+
+                <!-- Cart Button -->
+                <button onclick="toggleCartModal()" class="relative bg-brand-cardBg border border-brand-cardBorder p-3 rounded-xl hover:border-brand-accent transition-all">
+                    <i class="fa-solid fa-cart-shopping text-brand-accent text-lg"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-brand-accent text-black text-xs font-black w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative py-16 lg:py-24 overflow-hidden border-b border-brand-cardBorder/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 text-center lg:text-right">
+                    <div class="inline-flex items-center gap-2 bg-brand-accent/10 border border-brand-accent/30 text-brand-accent text-xs sm:text-sm px-4 py-2 rounded-full font-bold">
+                        <i class="fa-solid fa-fire"></i>
+                        <span>أحدث موديلات سكوتر البنزين والكهرباء</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-6xl font-black leading-tight text-white">
+                        اختر قوتك مع <br>
+                        <span class="text-brand-accent glow-text">اسكوتر بنزين وكهرباء</span>
+                    </h1>
+                    <p class="text-gray-300 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+                        نوفر لك أفضل التشكيلات من سكوترات البنزين القوية والسكوترات الكهربائية الذكية بأعلى مواصفات وأفضل الأسعار مع صيانة وضمان شامل.
+                    </p>
+                    <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
+                        <a href="#catalog" class="bg-brand-accent text-black font-extrabold px-8 py-4 rounded-xl hover:bg-brand-accentHover transition-all text-base shadow-lg shadow-brand-accent/20">
+                            استعرض جميع السكوترات
+                        </a>
+                        <a href="#calculator" class="bg-brand-cardBg border border-brand-cardBorder text-white font-bold px-8 py-4 rounded-xl hover:border-brand-accent transition-all text-base">
+                            حاسبة المسافة والبطارية
+                        </a>
+                    </div>
+                </div>
+                <div class="relative flex justify-center">
+                    <div class="w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-brand-accent/10 absolute blur-3xl -z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80" alt="Scooter" class="rounded-3xl border border-brand-cardBorder object-cover shadow-2xl max-h-[450px] w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATALOG SECTION -->
+    <section id="catalog" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10">
+            <div>
+                <h2 class="text-3xl font-black text-white">معرض السكوترات</h2>
+                <p class="text-gray-400 text-sm mt-1">تصفح سكوترات البنزين وسكوترات الكهرباء المتاحة لدى المعرض</p>
+            </div>
+            
+            <!-- Category Filter Buttons -->
+            <div class="flex flex-wrap gap-2">
+                <button onclick="setCategoryFilter('all')" class="cat-btn bg-brand-accent text-black font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition-all" data-cat="all">الكل</button>
+                <button onclick="setCategoryFilter('gas')" class="cat-btn bg-brand-cardBg border border-brand-cardBorder text-gray-300 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm hover:border-brand-accent transition-all" data-cat="gas">⛽ سكوتر بنزين</button>
+                <button onclick="setCategoryFilter('electric')" class="cat-btn bg-brand-cardBg border border-brand-cardBorder text-gray-300 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm hover:border-brand-accent transition-all" data-cat="electric">⚡ سكوتر كهرباء</button>
+            </div>
+        </div>
+
+        <!-- Scooter Grid -->
+        <div id="scooter-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Dynamic Cards Will Render Here -->
+        </div>
+    </section>
+
+    <!-- RANGE CALCULATOR SECTION -->
+    <section id="calculator" class="py-16 border-t border-brand-cardBorder bg-brand-cardBg/30">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-black text-white">حاسبة مدى البطارية والمسافة</h2>
+                <p class="text-gray-400 text-sm mt-2">تقدير المسافة للسكوترات الكهربائية بناءً على نمط القيادة والوزن</p>
+            </div>
+
+            <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-6 sm:p-8 space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-gray-300 mb-2">وزن الراكب: <span id="weight-val" class="text-brand-accent font-black">75</span> كجم</label>
+                    <input type="range" id="rider-weight" min="50" max="120" value="75" oninput="updateCalculator()" class="w-full accent-brand-accent bg-gray-800 rounded-lg cursor-pointer">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-300 mb-2">نمط القيادة:</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button onclick="setDriveMode('eco')" id="mode-eco" class="mode-btn bg-brand-accent text-black font-bold py-2.5 rounded-xl text-xs sm:text-sm">اقتصادي (Eco)</button>
+                        <button onclick="setDriveMode('normal')" id="mode-normal" class="mode-btn bg-brand-darkBg border border-brand-cardBorder text-gray-300 font-bold py-2.5 rounded-xl text-xs sm:text-sm">عادي (Drive)</button>
+                        <button onclick="setDriveMode('sport')" id="mode-sport" class="mode-btn bg-brand-darkBg border border-brand-cardBorder text-gray-300 font-bold py-2.5 rounded-xl text-xs sm:text-sm">رياضي (Sport)</button>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-brand-darkBg rounded-xl border border-brand-cardBorder flex flex-col sm:flex-row justify-around items-center gap-4 text-center">
+                    <div>
+                        <span class="block text-xs text-gray-400">المدى المتوقع بالشحنة</span>
+                        <span id="calc-range" class="text-3xl font-black text-brand-accent">45 كم</span>
+                    </div>
+                    <div class="w-full sm:w-px h-px sm:h-12 bg-brand-cardBorder"></div>
+                    <div>
+                        <span class="block text-xs text-gray-400">أقصى سرعة موصى بها</span>
+                        <span id="calc-speed" class="text-3xl font-black text-white">25 كم/س</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section id="features" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-brand-cardBorder/50">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-black text-white">لماذا تشتري من متجرنا؟</h2>
+            <p class="text-gray-400 text-sm mt-2">خدمة متكاملة لسكوترات البنزين والكهرباء</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-brand-cardBg border border-brand-cardBorder p-6 rounded-2xl text-center space-y-4">
+                <div class="w-14 h-14 bg-brand-accent/10 border border-brand-accent/30 rounded-2xl flex items-center justify-center mx-auto text-brand-accent text-2xl">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">ضمان وصيانة أصلية</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">نوفر ضماناً معتمداً وقطع غيار أصلية لجميع موديلات البنزين والكهرباء.</p>
+            </div>
+
+            <div class="bg-brand-cardBg border border-brand-cardBorder p-6 rounded-2xl text-center space-y-4">
+                <div class="w-14 h-14 bg-brand-accent/10 border border-brand-accent/30 rounded-2xl flex items-center justify-center mx-auto text-brand-accent text-2xl">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">شحن وتوصيل فوري</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">توصيل سريع لمختلف المحافظات مع تجربة ومعاينة السكوتر قبل الاستلام.</p>
+            </div>
+
+            <div class="bg-brand-cardBg border border-brand-cardBorder p-6 rounded-2xl text-center space-y-4">
+                <div class="w-14 h-14 bg-brand-accent/10 border border-brand-accent/30 rounded-2xl flex items-center justify-center mx-auto text-brand-accent text-2xl">
+                    <i class="fa-solid fa-wrench"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">مركز صيانة متخصص</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">فنيون متخصصون لصيانة محركات البنزين وأنظمة البطاريات الكهربائية.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-darkBg border-t border-brand-cardBorder py-10 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-right">
+            <div>
+                <span class="text-2xl font-black text-white">اسكوتر <span class="text-brand-accent">بنزين وكهرباء</span></span>
+                <p class="text-xs text-gray-500 mt-1">جميع الحقوق محفوظة © 2026 - معرض اسكوتر بنزين وكهرباء</p>
+            </div>
+            <div class="flex items-center gap-4 text-gray-400 text-xl">
+                <a href="https://wa.me/201001169209" target="_blank" class="hover:text-brand-accent transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" class="hover:text-brand-accent transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-brand-accent transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: AUTH / LOGIN -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-6 sm:p-8 w-full max-w-md relative">
+            <button onclick="toggleAuthModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-white mb-2">تسجيل دخول كمالك المتجر</h3>
+            <p class="text-xs text-gray-400 mb-6">أدخل كلمة المرور الخاصة بصاحب المحل للتحكم وإضافة أو تعديل أو حذف السكوترات.</p>
+            
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-2">كلمة المرور</label>
+                    <input type="password" id="admin-password" placeholder="أدخل كلمة المرور" required class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-4 py-3 text-white text-sm focus:border-brand-accent outline-none">
+                </div>
+                <button type="submit" class="w-full bg-brand-accent text-black font-extrabold py-3 rounded-xl hover:bg-brand-accentHover transition-all text-sm">
+                    دخول
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: ADD / EDIT SCOOTER -->
+    <div id="add-scooter-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-6 sm:p-8 w-full max-w-lg relative my-8">
+            <button onclick="closeAddScooterModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="scooter-modal-title" class="text-2xl font-bold text-white mb-6">إضافة سكوتر جديد</h3>
+
+            <form id="add-scooter-form" onsubmit="handleScooterSubmit(event)" class="space-y-4">
+                <input type="hidden" id="edit-scooter-id" value="">
+                
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">اسم السكوتر</label>
+                    <input type="text" id="new-title" required placeholder="مثال: SYM Jet 14 / Xiaomi Pro 4" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white text-sm focus:border-brand-accent outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">نوع السكوتر</label>
+                        <select id="new-category" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white text-sm focus:border-brand-accent outline-none">
+                            <option value="gas">⛽ سكوتر بنزين</option>
+                            <option value="electric">⚡ سكوتر كهرباء</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">السعر (جنية مصري)</label>
+                        <input type="number" id="new-price" required placeholder="45000" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white text-sm focus:border-brand-accent outline-none">
+                    </div>
+                </div>
+
+                <!-- MULTIPLE IMAGES SELECTION -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">صور السكوتر (يمكن اختيار أكثر من صورة)</label>
+                    <div class="space-y-2">
+                        <input type="file" id="new-image-file" accept="image/*" multiple onchange="handleImageFileUpload(event)" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-accent/20 file:text-brand-accent hover:file:bg-brand-accent/30 cursor-pointer">
+                        <p class="text-center text-xs text-gray-500">أو وضع روابط صور تفصل بينها بفاصلة (,):</p>
+                        <input type="text" id="new-image" placeholder="https://site.com/img1.jpg, https://site.com/img2.jpg" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white text-sm focus:border-brand-accent outline-none">
+                    </div>
+                    <!-- Image Preview Grid -->
+                    <div id="image-preview-container" class="mt-3 hidden">
+                        <p class="text-xs text-gray-400 mb-2 font-bold">معاينة الصور المختارة:</p>
+                        <div id="image-preview-grid" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">السرعة القصوى</label>
+                        <input type="text" id="new-speed" placeholder="110 كم/س" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-3 py-2 text-white text-xs focus:border-brand-accent outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">المحرك / السعة</label>
+                        <input type="text" id="new-power" placeholder="150cc / 1000W" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-3 py-2 text-white text-xs focus:border-brand-accent outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">المدى / التانك</label>
+                        <input type="text" id="new-range" placeholder="250 كم / 7 لتر" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-3 py-2 text-white text-xs focus:border-brand-accent outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">أقصى حمل</label>
+                        <input type="text" id="new-weight" placeholder="150 كجم" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-3 py-2 text-white text-xs focus:border-brand-accent outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">شارة مميزة (اختياري)</label>
+                        <input type="text" id="new-badge" placeholder="مثال: الأكثر طلباً" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-3 py-2 text-white text-xs focus:border-brand-accent outline-none">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-accent text-black font-extrabold py-3 rounded-xl hover:bg-brand-accentHover transition-all text-sm mt-4">
+                    حفظ السكوتر
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: DELETE CONFIRMATION -->
+    <div id="delete-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-6 w-full max-w-sm text-center">
+            <div class="w-12 h-12 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">تأكيد الحذف</h3>
+            <p class="text-xs text-gray-400 mb-6">هل أنت تأكد من رغبتك في حذف هذا السكوتر بشكل نهائي من الكتالوج؟</p>
+            <div class="flex gap-3">
+                <button onclick="confirmDeleteScooter()" class="flex-1 bg-red-600 text-white font-bold py-2.5 rounded-xl hover:bg-red-700 transition-all text-sm">حذف</button>
+                <button onclick="closeDeleteModal()" class="flex-1 bg-gray-800 text-gray-300 font-bold py-2.5 rounded-xl hover:bg-gray-700 transition-all text-sm">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: SERVER SETTINGS (API_URL) -->
+    <div id="sync-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl p-6 sm:p-8 w-full max-w-md relative">
+            <button onclick="closeSyncModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-white mb-2">إعدادات سيرفر الشيت</h3>
+            <p class="text-xs text-gray-400 mb-6">قم بتعديل أو وضع رابط الويب أب الخاص بـ Google Apps Script.</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-2">رابط الويب أب (API_URL)</label>
+                    <input type="text" id="script-url-input" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-4 py-3 text-white text-xs focus:border-brand-accent outline-none">
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="saveApiUrl()" class="flex-1 bg-brand-accent text-black font-extrabold py-3 rounded-xl hover:bg-brand-accentHover transition-all text-sm">حفظ الرابط</button>
+                    <button onclick="loadProductsFromServer()" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-all text-sm">تحديث المنتجات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 5: CART & CHECKOUT SIDEBAR -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex justify-end hidden">
+        <div class="bg-brand-cardBg border-r border-brand-cardBorder w-full max-w-md h-full flex flex-col p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping text-brand-accent"></i>
+                    <span>سلة المشتريات</span>
+                </h3>
+                <button onclick="toggleCartModal()" class="text-gray-400 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Cart Items -->
+            <div id="cart-items" class="flex-1 space-y-4 mb-6">
+                <!-- Dynamic Cart Items -->
+            </div>
+
+            <!-- Cart Summary & Checkout Form -->
+            <div class="border-t border-brand-cardBorder pt-4 space-y-4">
+                <div class="flex justify-between text-base font-bold text-white">
+                    <span>الإجمالي:</span>
+                    <span id="cart-total" class="text-brand-accent">0 ج.م</span>
+                </div>
+
+                <form onsubmit="handleCheckout(event)" class="space-y-3 pt-2">
+                    <input type="text" id="cust-name" required placeholder="الاسم بالكامل" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white text-xs focus:border-brand-accent outline-none">
+                    <input type="tel" id="cust-phone" required placeholder="رقم الموبايل" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white text-xs focus:border-brand-accent outline-none">
+                    <input type="text" id="cust-address" required placeholder="العنوان التفصيلي" class="w-full bg-brand-darkBg border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white text-xs focus:border-brand-accent outline-none">
+                    
+                    <button type="submit" class="w-full bg-brand-accent text-black font-extrabold py-3 rounded-xl hover:bg-brand-accentHover transition-all text-sm flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>إرسال الطلب عبر الواتساب والسيرفر</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-brand-accent text-black font-extrabold px-6 py-3 rounded-xl shadow-2xl z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-msg">تمت العملية بنجاح</span>
+    </div>
+
+    <!-- JAVASCRIPT CODE -->
+    <script>
+        const INITIAL_PRODUCTS = [
+            {
+                id: '1',
+                title: 'SYM Jet 14 150cc',
+                category: 'gas',
+                price: 78000,
+                images: [
+                    'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=600&q=80',
+                    'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=600&q=80'
+                ],
+                speed: '110 كم/س',
+                range: '280 كم / تانك',
+                power: '150cc بنزين',
+                badge: 'الفيوريت بامتياز',
+                specs: { weight: '150 كجم' }
+            },
+            {
+                id: '2',
+                title: 'Xiaomi Scooter Pro 4',
+                category: 'electric',
+                price: 19500,
+                images: [
+                    'https://images.unsplash.com/photo-1597082026196-18e4726d36e8?auto=format&fit=crop&w=600&q=80'
+                ],
+                speed: '25 كم/س',
+                range: '55 كم',
+                power: '700W كهرباء',
+                badge: 'الأكثر مبيعاً',
+                specs: { weight: '120 كجم' }
+            },
+            {
+                id: '3',
+                title: 'Marino Sports 150cc',
+                category: 'gas',
+                price: 62000,
+                images: [
+                    'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=600&q=80'
+                ],
+                speed: '100 كم/س',
+                range: '240 كم / تانك',
+                power: '150cc بنزين',
+                badge: 'تصميم اقتصادي',
+                specs: { weight: '140 كجم' }
+            },
+            {
+                id: '4',
+                title: 'Kaabo Wolf Warrior X Pro',
+                category: 'electric',
+                price: 48000,
+                images: [
+                    'https://images.unsplash.com/photo-1511994298241-608e28f14fde?auto=format&fit=crop&w=600&q=80'
+                ],
+                speed: '70 كم/س',
+                range: '100 كم',
+                power: '2000W كهرباء Dual',
+                badge: 'أعلى أداء كهربائي',
+                specs: { weight: '150 كجم' }
+            }
+        ];
+
+        let PRODUCTS = JSON.parse(JSON.stringify(INITIAL_PRODUCTS));
+        let currentCart = [];
+        let selectedDriveMode = 'eco';
+        let activeCategoryFilter = 'all';
+        let isAdminLoggedIn = localStorage.getItem('scooter_bg_is_admin') === 'true';
+        let uploadedImagesBase64 = [];
+        let activeImageIndices = {};
+        let pendingDeleteId = null;
+
+        // وضع رابط السيرفر النهائي المباشر الخاص بك
+        let API_URL = 'https://script.google.com/macros/s/AKfycbwi0r3SfBOewRh_xo2f3_zCwGFFQlKrybKUGsBABm-6sIe1JDGlVXF10uR8wrhHYr4K7w/exec';
+        let adminPass = localStorage.getItem('scooter_bg_admin_pass') || '662023';
+
+        function toggleAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            if (modal) modal.classList.toggle('hidden');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const passwordInput = document.getElementById('admin-password');
+            const pass = passwordInput ? passwordInput.value.trim() : '';
+
+            if (pass === '662023') {
+                isAdminLoggedIn = true;
+                adminPass = pass;
+                localStorage.setItem('scooter_bg_is_admin', 'true');
+                localStorage.setItem('scooter_bg_admin_pass', pass);
+                updateAdminUI();
+                toggleAuthModal();
+                showToast("تم تسجيل الدخول بنجاح كمالك المحل");
+            } else {
+                showToast("كلمة المرور غير صحيحة");
+            }
+        }
+
+        function updateAdminUI() {
+            const adminAddBtn = document.getElementById('admin-add-btn');
+            const adminSyncBtn = document.getElementById('admin-sync-btn');
+            const authLabel = document.getElementById('auth-label');
+            const authIcon = document.getElementById('auth-icon');
+            const authBtn = document.getElementById('auth-btn');
+
+            if (isAdminLoggedIn) {
+                if (adminAddBtn) adminAddBtn.classList.remove('hidden');
+                if (adminSyncBtn) adminSyncBtn.classList.remove('hidden');
+                if (authLabel) authLabel.innerText = "تسجيل خروج كمالك";
+                if (authIcon) authIcon.className = "fa-solid fa-right-from-bracket text-red-400";
+                if (authBtn) {
+                    authBtn.onclick = function() {
+                        isAdminLoggedIn = false;
+                        localStorage.setItem('scooter_bg_is_admin', 'false');
+                        updateAdminUI();
+                        renderProducts(getFilteredProducts());
+                        showToast("تم الخروج");
+                    };
+                }
+            } else {
+                if (adminAddBtn) adminAddBtn.classList.add('hidden');
+                if (adminSyncBtn) adminSyncBtn.classList.add('hidden');
+                if (authLabel) authLabel.innerText = "دخول صاحب المحل";
+                if (authIcon) authIcon.className = "fa-solid fa-user-lock text-brand-accent";
+                if (authBtn) {
+                    authBtn.onclick = function() {
+                        toggleAuthModal();
+                    };
+                }
+            }
+            renderProducts(getFilteredProducts());
+        }
+
+        function openSyncModal() {
+            document.getElementById('script-url-input').value = API_URL;
+            document.getElementById('sync-modal').classList.remove('hidden');
+        }
+
+        function closeSyncModal() {
+            document.getElementById('sync-modal').classList.add('hidden');
+        }
+
+        function saveApiUrl() {
+            const val = document.getElementById('script-url-input').value.trim();
+            if (val) {
+                API_URL = val;
+                localStorage.setItem('scooter_api_url', val);
+                showToast("تم حفظ رابط السيرفر بنجاح");
+                closeSyncModal();
+            } else {
+                showToast("برجاء إدخال رابط صحيح");
+            }
+        }
+
+        // جلب المنتجات تلقائياً من السيرفر
+        async function loadProductsFromServer() {
+            if (!API_URL || API_URL === 'ضع_رابط_الويب_اب_هنا') {
+                renderProducts(getFilteredProducts());
+                return;
+            }
+            try {
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                if (data.ok && data.products && data.products.length) {
+                    PRODUCTS = data.products;
+                    renderProducts(getFilteredProducts());
+                }
+            } catch (e) { console.error('Load failed', e); }
+        }
+
+        // حفظ وتحديث المنتجات على السيرفر (Google Sheets)
+        async function saveProductsToServer() {
+            if (!API_URL || API_URL === 'ضع_رابط_الويب_اب_هنا') {
+                renderProducts(getFilteredProducts());
+                return;
+            }
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'saveProducts', password: adminPass, products: PRODUCTS })
+                });
+                const data = await res.json();
+                if (data.ok) {
+                    await loadProductsFromServer(); // يجيب روابط Drive بدل base64
+                    showToast('تم الحفظ على السيرفر بنجاح');
+                } else {
+                    showToast('فشل الحفظ: ' + data.error);
+                }
+            } catch (e) { showToast('تعذر الاتصال بالسيرفر'); }
+        }
+
+        function openAddScooterModal() {
+            if (!isAdminLoggedIn) {
+                showToast("يجب تسجيل الدخول كمالك المحل لإضافة سكوتر");
+                toggleAuthModal();
+                return;
+            }
+            document.getElementById('edit-scooter-id').value = '';
+            document.getElementById('scooter-modal-title').innerText = 'إضافة سكوتر جديد';
+            document.getElementById('add-scooter-form').reset();
+            document.getElementById('image-preview-container').classList.add('hidden');
+            uploadedImagesBase64 = [];
+            document.getElementById('add-scooter-modal').classList.remove('hidden');
+        }
+
+        function openEditScooterModal(id) {
+            if (!isAdminLoggedIn) return;
+            const item = PRODUCTS.find(p => p.id === id);
+            if (!item) return;
+
+            document.getElementById('edit-scooter-id').value = item.id;
+            document.getElementById('scooter-modal-title').innerText = 'تعديل بيانات السكوتر';
+            document.getElementById('new-title').value = item.title;
+            document.getElementById('new-category').value = item.category || 'gas';
+            document.getElementById('new-price').value = item.price;
+            
+            const existingImages = item.images || (item.image ? [item.image] : []);
+            document.getElementById('new-image').value = existingImages.filter(img => !img.startsWith('data:') && !img.includes('google.com/thumbnail')).join(', ');
+            
+            document.getElementById('new-speed').value = item.speed || '';
+            document.getElementById('new-range').value = item.range || '';
+            document.getElementById('new-power').value = item.power || '';
+            document.getElementById('new-weight').value = item.specs?.weight || '';
+            document.getElementById('new-badge').value = item.badge || '';
+
+            uploadedImagesBase64 = existingImages.filter(img => img.startsWith('data:'));
+            renderModalImagePreview(existingImages);
+
+            document.getElementById('add-scooter-modal').classList.remove('hidden');
+        }
+
+        function closeAddScooterModal() {
+            document.getElementById('add-scooter-modal').classList.add('hidden');
+        }
+
+        function handleImageFileUpload(event) {
+            const files = Array.from(event.target.files);
+            if (files.length === 0) return;
+
+            uploadedImagesBase64 = [];
+            let loadedCount = 0;
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImagesBase64.push(e.target.result);
+                    loadedCount++;
+                    if (loadedCount === files.length) {
+                        renderModalImagePreview(uploadedImagesBase64);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderModalImagePreview(images) {
+            const previewContainer = document.getElementById('image-preview-container');
+            const previewGrid = document.getElementById('image-preview-grid');
+            if (!previewContainer || !previewGrid) return;
+
+            if (!images || images.length === 0) {
+                previewContainer.classList.add('hidden');
+                return;
+            }
+
+            previewGrid.innerHTML = images.map((imgSrc, idx) => `
+                <div class="relative w-16 h-16 rounded-lg overflow-hidden border border-brand-cardBorder">
+                    <img src="${imgSrc}" class="w-full h-full object-cover">
+                    <span class="absolute bottom-0 right-0 bg-black/70 text-[9px] text-white px-1 font-bold">${idx + 1}</span>
+                </div>
+            `).join('');
+
+            previewContainer.classList.remove('hidden');
+        }
+
+        async function handleScooterSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('edit-scooter-id').value;
+            const title = document.getElementById('new-title').value;
+            const category = document.getElementById('new-category').value;
+            const price = parseFloat(document.getElementById('new-price').value);
+            const imageURLInput = document.getElementById('new-image').value.trim();
+            
+            let urlImages = imageURLInput ? imageURLInput.split(',').map(u => u.trim()).filter(u => u.length > 0) : [];
+            let finalImages = [...uploadedImagesBase64, ...urlImages];
+
+            if (finalImages.length === 0) {
+                finalImages = ['https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=600&q=80'];
+            }
+
+            const speed = document.getElementById('new-speed').value || '100 كم/س';
+            const range = document.getElementById('new-range').value || '200 كم';
+            const power = document.getElementById('new-power').value || '150cc';
+            const weight = document.getElementById('new-weight').value || '140 كجم';
+            const badge = document.getElementById('new-badge').value;
+
+            if (editId) {
+                const index = PRODUCTS.findIndex(p => p.id === editId);
+                if (index !== -1) {
+                    PRODUCTS[index] = {
+                        ...PRODUCTS[index],
+                        title, category, price, images: finalImages, speed, range, power, badge,
+                        specs: { weight }
+                    };
+                }
+            } else {
+                const newScooter = {
+                    id: Date.now().toString(),
+                    title, category, price, images: finalImages, speed, range, power, badge,
+                    specs: { weight }
+                };
+                PRODUCTS.unshift(newScooter);
+            }
+
+            closeAddScooterModal();
+            await saveProductsToServer();
+        }
+
+        function changeProductImage(id, delta) {
+            const scooter = PRODUCTS.find(p => p.id === id);
+            if (!scooter) return;
+
+            const images = scooter.images || (scooter.image ? [scooter.image] : []);
+            if (images.length <= 1) return;
+
+            let currentIdx = activeImageIndices[id] || 0;
+            currentIdx = (currentIdx + delta + images.length) % images.length;
+            activeImageIndices[id] = currentIdx;
+
+            const imgElement = document.getElementById(`scooter-img-${id}`);
+            const counterElement = document.getElementById(`scooter-counter-${id}`);
+
+            if (imgElement) imgElement.src = images[currentIdx];
+            if (counterElement) counterElement.innerText = `${currentIdx + 1} / ${images.length}`;
+        }
+
+        function openDeleteModal(id) {
+            pendingDeleteId = id;
+            document.getElementById('delete-modal').classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            pendingDeleteId = null;
+            document.getElementById('delete-modal').classList.add('hidden');
+        }
+
+        async function confirmDeleteScooter() {
+            if (!pendingDeleteId) return;
+            PRODUCTS = PRODUCTS.filter(p => p.id !== pendingDeleteId);
+            closeDeleteModal();
+            await saveProductsToServer();
+        }
+
+        function getFilteredProducts() {
+            if (activeCategoryFilter === 'all') return PRODUCTS;
+            return PRODUCTS.filter(p => p.category === activeCategoryFilter);
+        }
+
+        function setCategoryFilter(cat) {
+            activeCategoryFilter = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.className = "cat-btn bg-brand-accent text-black font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition-all";
+                } else {
+                    btn.className = "cat-btn bg-brand-cardBg border border-brand-cardBorder text-gray-300 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm hover:border-brand-accent transition-all";
+                }
+            });
+            renderProducts(getFilteredProducts());
+        }
+
+        function renderProducts(items) {
+            const grid = document.getElementById('scooter-grid');
+            if (!grid) return;
+
+            if (items.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-box-open text-4xl mb-3 block"></i>
+                        <p class="text-base font-bold">لا توجد سكوترات متاحة في هذه الفئة حالياً</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = items.map(scooter => {
+                const images = scooter.images || (scooter.image ? [scooter.image] : ['https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=600&q=80']);
+                const currentImgIdx = activeImageIndices[scooter.id] || 0;
+                const hasMultipleImages = images.length > 1;
+
+                return `
+                <div class="bg-brand-cardBg border border-brand-cardBorder rounded-2xl overflow-hidden hover:border-brand-accent/50 transition-all flex flex-col justify-between group">
+                    <div class="relative overflow-hidden h-56 bg-brand-darkBg">
+                        <img id="scooter-img-${scooter.id}" src="${images[currentImgIdx] || images[0]}" alt="${scooter.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        
+                        ${scooter.badge ? `<span class="absolute top-3 right-3 bg-brand-accent text-black text-xs font-black px-3 py-1 rounded-full shadow-lg z-10">${scooter.badge}</span>` : ''}
+                        
+                        ${hasMultipleImages ? `
+                            <button onclick="changeProductImage('${scooter.id}', -1)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-brand-accent hover:text-black text-white flex items-center justify-center text-xs transition-colors z-10">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <button onclick="changeProductImage('${scooter.id}', 1)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-brand-accent hover:text-black text-white flex items-center justify-center text-xs transition-colors z-10">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                            <span id="scooter-counter-${scooter.id}" class="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/70 text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-10">
+                                ${currentImgIdx + 1} / ${images.length}
+                            </span>
+                        ` : ''}
+
+                        ${isAdminLoggedIn ? `
+                            <div class="absolute top-3 left-3 flex gap-2 z-10">
+                                <button onclick="openEditScooterModal('${scooter.id}')" class="w-8 h-8 bg-black/70 hover:bg-black text-white rounded-lg flex items-center justify-center text-xs transition-colors">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button onclick="openDeleteModal('${scooter.id}')" class="w-8 h-8 bg-red-600/80 hover:bg-red-600 text-white rounded-lg flex items-center justify-center text-xs transition-colors">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="text-xl font-bold text-white">${scooter.title}</h3>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded ${scooter.category === 'gas' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'}">
+                                    ${scooter.category === 'gas' ? '⛽ بنزين' : '⚡ كهرباء'}
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-xs text-gray-400 bg-brand-darkBg p-3 rounded-xl border border-brand-cardBorder/50 mt-2">
+                                <div class="flex items-center gap-1.5"><i class="fa-solid fa-gauge-high text-brand-accent"></i><span>السرعة: ${scooter.speed || '100 كم/س'}</span></div>
+                                <div class="flex items-center gap-1.5"><i class="fa-solid fa-route text-brand-accent"></i><span>المدى: ${scooter.range || '200 كم'}</span></div>
+                                <div class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-brand-accent"></i><span>المحرك: ${scooter.power || '150cc'}</span></div>
+                                <div class="flex items-center gap-1.5"><i class="fa-solid fa-weight-hanging text-brand-accent"></i><span>الحمل: ${scooter.specs?.weight || '140 كجم'}</span></div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2 border-t border-brand-cardBorder/50">
+                            <div>
+                                <span class="block text-xs text-gray-400">السعر النقدى</span>
+                                <span class="text-xl font-black text-brand-accent">${scooter.price.toLocaleString()} ج.م</span>
+                            </div>
+                            <button onclick="addToCart('${scooter.id}')" class="bg-brand-accent/10 border border-brand-accent/30 hover:bg-brand-accent hover:text-black text-brand-accent font-bold px-4 py-2.5 rounded-xl transition-all text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span>إضافة للسلة</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function setDriveMode(mode) {
+            selectedDriveMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.className = "mode-btn bg-brand-darkBg border border-brand-cardBorder text-gray-300 font-bold py-2.5 rounded-xl text-xs sm:text-sm";
+            });
+            document.getElementById(`mode-${mode}`).className = "mode-btn bg-brand-accent text-black font-bold py-2.5 rounded-xl text-xs sm:text-sm";
+            updateCalculator();
+        }
+
+        function updateCalculator() {
+            const weight = parseInt(document.getElementById('rider-weight').value);
+            document.getElementById('weight-val').innerText = weight;
+
+            let baseRange = 50;
+            let baseSpeed = 25;
+
+            if (selectedDriveMode === 'eco') {
+                baseRange += 10;
+                baseSpeed = 20;
+            } else if (selectedDriveMode === 'sport') {
+                baseRange -= 12;
+                baseSpeed = 35;
+            }
+
+            const weightImpact = (weight - 75) * 0.3;
+            const finalRange = Math.max(15, Math.round(baseRange - weightImpact));
+
+            document.getElementById('calc-range').innerText = `${finalRange} كم`;
+            document.getElementById('calc-speed').innerText = `${baseSpeed} كم/س`;
+        }
+
+        function toggleCartModal() {
+            const modal = document.getElementById('cart-modal');
+            if (modal) modal.classList.toggle('hidden');
+        }
+
+        function addToCart(id) {
+            const scooter = PRODUCTS.find(p => p.id === id);
+            if (!scooter) return;
+
+            const existing = currentCart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                currentCart.push({ ...scooter, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`تمت إضافة ${scooter.title} إلى السلة`);
+        }
+
+        function updateCartQty(id, delta) {
+            const item = currentCart.find(i => i.id === id);
+            if (!item) return;
+
+            item.qty += delta;
+            if (item.qty <= 0) {
+                currentCart = currentCart.filter(i => i.id !== id);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            const itemsContainer = document.getElementById('cart-items');
+            const totalSpan = document.getElementById('cart-total');
+
+            const totalQty = currentCart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = currentCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            if (badge) {
+                badge.innerText = totalQty;
+                if (totalQty > 0) badge.classList.remove('hidden');
+                else badge.classList.add('hidden');
+            }
+
+            if (totalSpan) {
+                totalSpan.innerText = `${totalPrice.toLocaleString()} ج.م`;
+            }
+
+            if (!itemsContainer) return;
+
+            if (currentCart.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-3 block"></i>
+                        <p class="text-sm font-bold">سلة المشتريات فارغة</p>
+                    </div>
+                `;
+                return;
+            }
+
+            itemsContainer.innerHTML = currentCart.map(item => {
+                const itemImg = (item.images && item.images.length > 0) ? item.images[0] : (item.image || '');
+                return `
+                <div class="bg-brand-darkBg p-3 rounded-xl border border-brand-cardBorder flex items-center justify-between gap-3">
+                    <img src="${itemImg}" alt="${item.title}" class="w-14 h-14 object-cover rounded-lg">
+                    <div class="flex-1">
+                        <h4 class="text-xs font-bold text-white">${item.title}</h4>
+                        <span class="text-xs font-black text-brand-accent">${item.price.toLocaleString()} ج.م</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-brand-cardBg px-2 py-1 rounded-lg border border-brand-cardBorder">
+                        <button onclick="updateCartQty('${item.id}', -1)" class="text-xs text-gray-400 hover:text-white px-1">-</button>
+                        <span class="text-xs font-bold text-white">${item.qty}</span>
+                        <button onclick="updateCartQty('${item.id}', 1)" class="text-xs text-gray-400 hover:text-white px-1">+</button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        async function handleCheckout(e) {
+            e.preventDefault();
+            if (currentCart.length === 0) {
+                showToast("السلة فارغة، أضف سكوتر أولاً!");
+                return;
+            }
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const address = document.getElementById('cust-address').value;
+            const totalPrice = currentCart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            if (API_URL && API_URL !== 'ضع_رابط_الويب_اب_هنا') {
+                try {
+                    await fetch(API_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({
+                            action: 'addOrder',
+                            order: {
+                                name,
+                                phone,
+                                address,
+                                items: currentCart.map(i => ({ title: i.title, type: i.category, qty: i.qty, total: i.price * i.qty })),
+                                total: totalPrice
+                            }
+                        })
+                    });
+                } catch (err) {
+                    console.error("Order sync error:", err);
+                }
+            }
+
+            let msg = `*طلب جديد من موقع اسكوتر بنزين وكهرباء*%0A%0A`;
+            msg += `👤 *الاسم:* ${name}%0A`;
+            msg += `📞 *الموبايل:* ${phone}%0A`;
+            msg += `📍 *العنوان:* ${address}%0A%0A`;
+            msg += `🛒 *الطلبات:*%0A`;
+
+            currentCart.forEach(item => {
+                const typeText = item.category === 'gas' ? 'بنزين' : 'كهرباء';
+                msg += `- ${item.title} (${typeText}) - العدد: ${item.qty} - ${item.price * item.qty} ج.م%0A`;
+            });
+
+            msg += `%0A💰 *الإجمالي النهائي:* ${totalPrice.toLocaleString()} ج.م`;
+
+            const whatsappUrl = `https://wa.me/201001169209?text=${msg}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            if (!toast || !toastMsg) return;
+
+            toastMsg.innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        window.onload = async function() {
+            updateAdminUI();
+            await loadProductsFromServer();
+            updateCartUI();
+            updateCalculator();
+        };
+    </script>
+</body>
+</html>
